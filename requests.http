@@ -1,0 +1,48 @@
+# Teste a API direto pelo VS Code com a extensão "REST Client".
+# Clique em "Send Request" que aparece em cima de cada requisição.
+
+@base = http://localhost:3333
+
+### Verificar se a API está no ar
+GET {{base}}/health
+
+### Criar um chamado
+POST {{base}}/chamados
+Content-Type: application/json
+
+{
+  "titulo": "Impressora não imprime",
+  "descricao": "A impressora do financeiro está com papel atolado.",
+  "solicitante": "Maria Souza",
+  "local": "Financeiro, sala 204",
+  "prioridade": "alta"
+}
+
+### Listar todos os chamados
+GET {{base}}/chamados
+
+### Listar só os chamados abertos
+GET {{base}}/chamados?status=aberto
+
+### Buscar um chamado (troque o ID por um que apareceu na listagem)
+GET {{base}}/chamados/COLE-O-ID-AQUI
+
+### Mudar o status
+PATCH {{base}}/chamados/COLE-O-ID-AQUI/status
+Content-Type: application/json
+
+{
+  "status": "em_andamento"
+}
+
+### Excluir
+DELETE {{base}}/chamados/COLE-O-ID-AQUI
+
+### Teste de erro: dados inválidos (deve voltar 400)
+POST {{base}}/chamados
+Content-Type: application/json
+
+{
+  "titulo": "",
+  "prioridade": "urgente"
+}
